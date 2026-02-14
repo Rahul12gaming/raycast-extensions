@@ -4,8 +4,8 @@
   "title": "Postey",
   "description": "Create and manage social media drafts on Postey for X, LinkedIn, Threads, Bluesky, and Mastodon.",
   "icon": "icon.png",
-  "author": "rahul_adhikari",
-  "owner": "rahul_adhikari",
+  "author": "postey",
+  "owner": "posteyai",
   "access": "public",
   "categories": [
     "Productivity",

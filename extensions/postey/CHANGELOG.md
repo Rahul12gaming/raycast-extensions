@@ -1,10 +1,10 @@
 # Postey Changelog
 
-## [Cleanup] - 2026-02-04
+## [Cleanup] - {PR_MERGE_DATE}
 
 - Remove store submission checklist from README
 
-## [Initial Release] - 2026-02-04
+## [Initial Release] - {PR_MERGE_DATE}
 
 New Raycast extension for Postey, built on the Postey API v2.
 

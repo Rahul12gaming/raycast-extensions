@@ -102,7 +102,7 @@ export function DraftItem(props: DraftItemProps) {
     if (!draft.share_url) {
       await showToast({
         style: Toast.Style.Failure,
-        title: "Pubic URL unavailable",
+        title: "Public URL unavailable",
         message: "Share the draft in Postey before copying the public link.",
       });
       return;

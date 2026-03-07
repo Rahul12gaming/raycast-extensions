@@ -292,10 +292,7 @@ export async function createDraft(payload: CreateRawDraftRequest): Promise<Creat
   }
 
   return [];
-}
-
-export async function deleteDraft(socialSetId: number, draftId: number) {
-  await requestJson<void>(`/v1/posts?account=${socialSetId}`, {
+  const response = await requestJson<Tags[] | { data?: Tags[]; results?: Tags[] }>(
     method: "DELETE",
     body: [draftId],
   });

@@ -216,12 +216,16 @@ function mapUserPostStatus(status: UserPostStatus): DraftListItem["status"] {
     case "SCHEDULED":
       return "scheduled";
     case "PUBLISHED":
-  return requestJson<ParsedPostContent | { text?: string | string[]; media?: string | string[] }>(
-    `/v1/posts/parsed/content?${query}`,
-    {
-      method: "GET",
-    },
-  ).then(normalizeParsedContent);
+      return "published";
+    case "PUBLISHING":
+      return "publishing";
+    default:
+      return "draft";
+  }
+}
+
+export async function getDraft(draftId: number) {
+  return requestJson<DraftDetail>(`/v1/posts/${draftId}`, { method: "GET" });
 }
 
 export async function getParsedPostContent(platform: string, postId: number) {
@@ -288,7 +292,25 @@ export async function createDraft(payload: CreateRawDraftRequest): Promise<Creat
   }
 
   return [];
-  const response = await requestJson<Tags[] | { data?: Tags[]; results?: Tags[] }>(
+}
+
+export async function scheduleDraft(draftId: number, socialSetId: number, publishAt: string) {
+  return requestJson<{
+    id?: number;
+    social_set_id?: number;
+    status?: string;
+    scheduled_date?: string | null;
+    private_url?: string | null;
+  }>(`/v1/posts/${draftId}?account=${socialSetId}`, {
+    method: "PATCH",
+    body: {
+      publish_at: publishAt,
+    },
+  });
+}
+
+export async function deleteDraft(socialSetId: number, draftId: number) {
+  await requestJson<void>(`/v1/posts?account=${socialSetId}`, {
     method: "DELETE",
     body: [draftId],
   });
@@ -299,12 +321,9 @@ export async function getMediaStatus(socialSetId: number, mediaId: string) {
 }
 
 export async function listTags(socialSetId: number) {
-  const response = await requestJson<Tags[] | Tags[] | { data?: Tags[]; results?: Tags[] }>(
-    `/v1/tags?account=${socialSetId}`,
-    {
-      method: "GET",
-    },
-  );
+  const response = await requestJson<Tags[] | { data?: Tags[]; results?: Tags[] }>(`/v1/tags?account=${socialSetId}`, {
+    method: "GET",
+  });
 
   const rawItems = Array.isArray(response) ? response : (response.data ?? response.results ?? []);
   return rawItems

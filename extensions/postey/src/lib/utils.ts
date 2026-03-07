@@ -77,7 +77,7 @@ export function getDraftDate(draft: DraftListItem) {
   return Number.isNaN(date.getTime()) ? undefined : date;
 }
 
-const rtf = new Intl.RelativeTimeFormat(undefined, { numeric: "auto" });
+const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
 
 export function formatRelativeDate(date: Date) {
   const now = new Date();

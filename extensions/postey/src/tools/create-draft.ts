@@ -77,7 +77,7 @@ async function getDefaultSocialSetId() {
   const storedSocialSetId = await LocalStorage.getItem<string>(DEFAULT_SOCIAL_SET_STORAGE_KEY);
   const socialSetId = Number(storedSocialSetId);
   if (!storedSocialSetId || !Number.isFinite(socialSetId)) {
-    throw new Error("No default social set configured. Set DEFAULT_SOCIAL_SET_STORAGE_KEY first.");
+throw new Error("No default social set configured. Open the 'Search Social Sets' command to set a default.");
   }
   return socialSetId;
 }

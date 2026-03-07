@@ -216,16 +216,12 @@ function mapUserPostStatus(status: UserPostStatus): DraftListItem["status"] {
     case "SCHEDULED":
       return "scheduled";
     case "PUBLISHED":
-      return "published";
-    case "PUBLISHING":
-      return "publishing";
-    default:
-      return "draft";
-  }
-}
-
-export async function getDraft(draftId: number) {
-  return requestJson<DraftDetail>(`/v1/posts/${draftId}`, { method: "GET" });
+  return requestJson<ParsedPostContent | { text?: string | string[]; media?: string | string[] }>(
+    `/v1/posts/parsed/content?${query}`,
+    {
+      method: "GET",
+    },
+  ).then(normalizeParsedContent);
 }
 
 export async function getParsedPostContent(platform: string, postId: number) {

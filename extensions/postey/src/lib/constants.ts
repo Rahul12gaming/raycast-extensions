@@ -8,9 +8,8 @@ export type PlatformKey = (typeof PLATFORM_KEYS)[number];
 
 export const PLATFORM_LABELS: Record<PlatformKey, string> = {
   X: "X",
-  LINKEDIN: "LINKEDIN",
+  LINKEDIN: "LinkedIn",
 };
-
 export const THREAD_PLATFORMS = new Set<PlatformKey>(["X"]);
 
 export type DraftStatus = "draft" | "scheduled" | "published" | "publishing";

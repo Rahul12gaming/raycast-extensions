@@ -87,10 +87,11 @@ export function getScheduledSortTime(draft: DraftListItem) {
 }
 
 export function formatScheduledDateTime(date: Date) {
-  return date.toLocaleString(undefined, {
+  return date.toLocaleString("en-US", {
     month: "short",
     day: "numeric",
     hour: "2-digit",
     minute: "2-digit",
   });
+}
 }

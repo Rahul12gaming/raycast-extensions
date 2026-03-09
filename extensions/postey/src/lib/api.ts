@@ -153,7 +153,7 @@ export async function listDrafts(
   const results: DraftListItem[] = response.data.map((post) => {
     const privateUrl = post.share_id
       ? `${APP_BASE}/s/${encodeURIComponent(post.share_id)}`
-      : `${API_BASE}?d=${post.post_id * 256}`;
+      : `${APP_BASE}?d=${post.post_id * 256}`;
 
     return {
       id: post.post_id,

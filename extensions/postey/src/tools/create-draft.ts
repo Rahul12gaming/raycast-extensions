@@ -2,6 +2,7 @@ import { AI, LocalStorage, Tool } from "@raycast/api";
 import { createDraft } from "../lib/api";
 import {
   DEFAULT_SOCIAL_SET_STORAGE_KEY,
+  getPlatformLabel,
   PLATFORM_KEYS,
   PLATFORM_SELECTIONS_STORAGE_KEY,
   type PlatformKey,
@@ -62,7 +63,9 @@ function buildDraftTitle(content: string, title?: string) {
 }
 
 export const confirmation: Tool.Confirmation<Input> = async (input) => {
-  const platformLabel = input.platforms?.length ? input.platforms.join(", ") : "all enabled platforms";
+  const platformLabel = input.platforms?.length
+    ? input.platforms.map((platform) => getPlatformLabel(platform)).join(", ")
+    : "all enabled platforms";
   const content = input.content?.trim();
   const prompt = input.prompt?.trim();
   const previewSource = content || prompt || "";

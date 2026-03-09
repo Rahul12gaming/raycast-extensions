@@ -9,12 +9,18 @@ import { DEFAULT_SOCIAL_SET_STORAGE_KEY, LAST_SOCIAL_SET_STORAGE_KEY } from "./c
 export async function resolveSocialSetId(): Promise<number> {
   const stored = await LocalStorage.getItem<string>(DEFAULT_SOCIAL_SET_STORAGE_KEY);
   if (stored) {
-    return Number(stored);
+    const parsedStored = Number(stored);
+    if (Number.isFinite(parsedStored)) {
+      return parsedStored;
+    }
   }
 
   const lastUsed = await LocalStorage.getItem<string>(LAST_SOCIAL_SET_STORAGE_KEY);
   if (lastUsed) {
-    return Number(lastUsed);
+    const parsedLastUsed = Number(lastUsed);
+    if (Number.isFinite(parsedLastUsed)) {
+      return parsedLastUsed;
+    }
   }
 
   const socialSets = await listSocialSets();

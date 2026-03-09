@@ -2,7 +2,7 @@ import { Action, ActionPanel, Alert, Clipboard, Icon, List, confirmAlert, showTo
 import { usePromise } from "@raycast/utils";
 import { useMemo } from "react";
 import { deleteDraft, getParsedPostContent } from "../lib/api";
-import { DRAFT_STATUS_LABELS, type DraftStatus } from "../lib/constants";
+import { DRAFT_STATUS_LABELS, getPlatformLabel, type DraftStatus } from "../lib/constants";
 import type { DraftListItem } from "../lib/types";
 import {
   formatRelativeDate,
@@ -245,7 +245,7 @@ function DraftDetailView(props: DraftDetailViewProps) {
           {draft.socials && draft.socials.length > 0 ? (
             <List.Item.Detail.Metadata.TagList title="Platforms">
               {draft.socials.map((platform) => (
-                <List.Item.Detail.Metadata.TagList.Item key={platform} text={platform} />
+                <List.Item.Detail.Metadata.TagList.Item key={platform} text={getPlatformLabel(platform)} />
               ))}
             </List.Item.Detail.Metadata.TagList>
           ) : null}

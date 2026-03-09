@@ -12,6 +12,11 @@ export const PLATFORM_LABELS: Record<PlatformKey, string> = {
 };
 export const THREAD_PLATFORMS = new Set<PlatformKey>(["X"]);
 
+export function getPlatformLabel(platform: string) {
+  const normalized = platform.toUpperCase() as PlatformKey;
+  return normalized in PLATFORM_LABELS ? PLATFORM_LABELS[normalized] : platform;
+}
+
 export type DraftStatus = "draft" | "scheduled" | "published" | "publishing";
 
 export const DRAFT_STATUS_LABELS: Record<DraftStatus, string> = {

@@ -29,6 +29,8 @@ type UserPostResponse = {
   account_id: number;
   created_at: string;
   updated_at: string;
+  published_at?: string | null;
+  scheduled_date?: string | null;
 };
 
 type PaginatedUserPostsResponse = {
@@ -165,8 +167,8 @@ export async function listDrafts(
       tags: extractPostTags(post.tags),
       created_at: post.created_at,
       updated_at: post.updated_at,
-      published_at: post.status === "PUBLISHED" ? post.updated_at : null,
-      scheduled_date: post.status === "SCHEDULED" ? post.updated_at : null,
+      published_at: post.published_at ?? null,
+      scheduled_date: post.scheduled_date ?? null,
     };
   });
 
@@ -235,22 +237,13 @@ export async function getParsedPostContent(platform: string, postId: number) {
     post_id: String(postId),
   }).toString();
 
-  try {
-    const response = await requestJson<ParsedPostContent | { text?: string | string[]; media?: string | string[] }>(
-      `/v1/posts/parsed/content?${query}`,
-      {
-        method: "GET",
-      },
-    );
-    return normalizeParsedContent(response);
-  } catch {
-    const fallbackResponse = await requestJson<
-      ParsedPostContent | { text?: string | string[]; media?: string | string[] }
-    >(`/v1/posts/parsed/content?${query}`, {
+  const response = await requestJson<ParsedPostContent | { text?: string | string[]; media?: string | string[] }>(
+    `/v1/posts/parsed/content?${query}`,
+    {
       method: "GET",
-    });
-    return normalizeParsedContent(fallbackResponse);
-  }
+    },
+  );
+  return normalizeParsedContent(response);
 }
 
 function normalizeParsedContent(
@@ -321,11 +314,13 @@ export async function getMediaStatus(socialSetId: number, mediaId: string) {
 }
 
 export async function listTags(socialSetId: number) {
-  const response = await requestJson<Tags[] | { data?: Tags[]; results?: Tags[] }>(`/v1/tags?account=${socialSetId}`, {
+  const response = await requestJson<unknown>(`/v1/tags?account=${socialSetId}`, {
     method: "GET",
   });
 
-  const rawItems = Array.isArray(response) ? response : (response.data ?? response.results ?? []);
+  const responseObject =
+    response && typeof response === "object" ? (response as { data?: Tags[]; results?: Tags[] }) : undefined;
+  const rawItems = Array.isArray(response) ? response : (responseObject?.data ?? responseObject?.results ?? []);
   return rawItems
     .map((tag) => {
       const record = tag as Tags;

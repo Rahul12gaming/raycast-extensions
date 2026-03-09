@@ -1922,51 +1922,6 @@
             ],
             "title": "Linkedin Published Url"
           },
-          "mastodon_published_url": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "URL of the published post on Mastodon. Null if not published to Mastodon or URL not available.",
-            "examples": [
-              "https://mastodon.social/@username/1234567890"
-            ],
-            "title": "Mastodon Published Url"
-          },
-          "threads_published_url": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "URL of the published post on Threads. Null if not published to Threads or URL not available.",
-            "examples": [
-              "https://www.threads.net/@username/post/ABC123"
-            ],
-            "title": "Threads Published Url"
-          },
-          "bluesky_published_url": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "URL of the published post on Bluesky. Null if not published to Bluesky or URL not available.",
-            "examples": [
-              "https://bsky.app/profile/username.bsky.social/post/abc123"
-            ],
-            "title": "Bluesky Published Url"
-          },
           "id": {
             "anyOf": [
               {
@@ -2320,51 +2275,6 @@
               "https://www.linkedin.com/feed/update/urn:li:share:1234567890"
             ],
             "title": "Linkedin Published Url"
-          },
-          "mastodon_published_url": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "URL of the published post on Mastodon. Null if not published to Mastodon or URL not available.",
-            "examples": [
-              "https://mastodon.social/@username/1234567890"
-            ],
-            "title": "Mastodon Published Url"
-          },
-          "threads_published_url": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "URL of the published post on Threads. Null if not published to Threads or URL not available.",
-            "examples": [
-              "https://www.threads.net/@username/post/ABC123"
-            ],
-            "title": "Threads Published Url"
-          },
-          "bluesky_published_url": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "URL of the published post on Bluesky. Null if not published to Bluesky or URL not available.",
-            "examples": [
-              "https://bsky.app/profile/username.bsky.social/post/abc123"
-            ],
-            "title": "Bluesky Published Url"
           },
           "x_post_published_at": {
             "anyOf": [

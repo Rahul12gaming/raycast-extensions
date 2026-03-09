@@ -141,9 +141,6 @@ export type DraftDetail = {
   scheduled_date?: string | null;
   x_published_url?: string | null;
   linkedin_published_url?: string | null;
-  threads_published_url?: string | null;
-  bluesky_published_url?: string | null;
-  mastodon_published_url?: string | null;
 };
 
 export type MediaUrls = {

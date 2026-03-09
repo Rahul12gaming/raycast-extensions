@@ -14,7 +14,7 @@ This extension requires a Postey API key. Get yours at [postey.ai â†’ Settings â
 
 | Command | Description |
 | --- | --- |
-| New Draft | Create a draft for X, LinkedIn, Threads, Bluesky, or Mastodon |
+| New Draft | Create a draft for X, LinkedIn |
 | View Drafts | Browse your unpublished drafts |
 | View Scheduled | Browse your scheduled drafts |
 | View Published | Browse your published drafts |

@@ -8,7 +8,7 @@
 
 New Raycast extension for Postey, built on the Postey API v2.
 
-- Create drafts for X, LinkedIn, Threads, Bluesky, and Mastodon
+- Create drafts for X, LinkedIn
 - Split content into threads using `---` delimiter
 - Schedule drafts or publish immediately
 - Browse unpublished, scheduled, and published drafts

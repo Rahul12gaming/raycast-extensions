@@ -170,7 +170,7 @@ export function CreateDraftForm(props: { socialSetId?: string; draftValues?: For
       await showToast({ style: Toast.Style.Animated, title: "Creating draft" });
 
       try {
-        const createdPosts = await createDraft({
+        const draft = await createDraft({
           account_id: Number(formValues.socialSetId),
           platforms: formValues.platforms as PlatformKey[],
           post_raw_content: rawContent,
@@ -180,9 +180,6 @@ export function CreateDraftForm(props: { socialSetId?: string; draftValues?: For
           tags: tagIds.length > 0 ? tagIds : undefined,
         });
 
-        const postIds = createdPosts.map((post) => post.post_id).filter((id) => Number.isInteger(id));
-        const processedPlatforms = createdPosts.length > 0 ? createdPosts.length : formValues.platforms.length;
-
         reset({
           content: "",
         });
@@ -191,17 +188,13 @@ export function CreateDraftForm(props: { socialSetId?: string; draftValues?: For
         await showToast({
           style: Toast.Style.Success,
           title: "Draft created",
-          message:
-            postIds.length > 0 ? `Post IDs: ${postIds.join(", ")}` : `${processedPlatforms} platform(s) processed`,
-          primaryAction:
-            postIds.length > 0
-              ? {
-                  title: "Copy Post IDs",
-                  onAction: async () => {
-                    await Clipboard.copy(postIds.join(", "));
-                  },
-                }
-              : undefined,
+          message: `Post ID: ${draft.id}`,
+          primaryAction: {
+            title: "Copy Post ID",
+            onAction: async () => {
+              await Clipboard.copy(String(draft.id));
+            },
+          },
         });
       } catch (error) {
         await showToast({

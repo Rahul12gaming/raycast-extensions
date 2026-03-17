@@ -19,6 +19,7 @@ const STATUS_ICONS: Record<DraftStatus, Icon> = {
   scheduled: Icon.Calendar,
   published: Icon.CheckCircle,
   publishing: Icon.Clock,
+  error: Icon.ExclamationMark,
 };
 
 type DraftItemProps = {

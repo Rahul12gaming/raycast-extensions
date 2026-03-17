@@ -17,13 +17,14 @@ export function getPlatformLabel(platform: string) {
   return normalized in PLATFORM_LABELS ? PLATFORM_LABELS[normalized] : platform;
 }
 
-export type DraftStatus = "draft" | "scheduled" | "published" | "publishing";
+export type DraftStatus = "draft" | "scheduled" | "published" | "publishing" | "error";
 
 export const DRAFT_STATUS_LABELS: Record<DraftStatus, string> = {
   draft: "Draft",
   scheduled: "Scheduled",
   published: "Published",
   publishing: "Publishing",
+  error: "Error",
 };
 
 export const DRAFT_STATUS_OPTIONS: Array<{
@@ -35,4 +36,5 @@ export const DRAFT_STATUS_OPTIONS: Array<{
   { value: "scheduled", title: "Scheduled" },
   { value: "published", title: "Published" },
   { value: "publishing", title: "Publishing" },
+  { value: "error", title: "Error" },
 ];

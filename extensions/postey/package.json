@@ -2,7 +2,7 @@
   "$schema": "https://www.raycast.com/schemas/extension.json",
   "name": "postey",
   "title": "Postey",
-  "description": "Create and manage social media drafts on Postey for X, LinkedIn, Threads, Bluesky, and Mastodon.",
+  "description": "Create and manage social media drafts on Postey for X and LinkedIn.",
   "icon": "icon.png",
   "author": "postey",
   "access": "public",
@@ -84,7 +84,7 @@
     {
       "name": "create-draft",
       "title": "Create Draft",
-      "description": "Create a new social media draft on Postey. Provide either content (full draft text) or prompt (idea to generate). Use --- on its own line to split threads. Supports X (Twitter), LinkedIn, Threads, Bluesky, and Mastodon."
+      "description": "Create a new social media draft on Postey. Provide either content (full draft text) or prompt (idea to generate). Use --- on its own line to split threads. Supports X (Twitter) and LinkedIn."
     },
     {
       "name": "list-drafts",

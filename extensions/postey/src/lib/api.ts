@@ -2,9 +2,9 @@ import { getPreferences } from "./preferences";
 import type {
   ApiErrorResponse,
   CreateRawDraftRequest,
-  CreateRawDraftResult,
   DraftDetail,
   DraftListItem,
+  DraftUpdateRequest,
   MediaStatus,
   ParsedPostContent,
   PagedResponse,
@@ -17,7 +17,7 @@ const API_BASE = "https://srvr.postey.ai";
 const APP_BASE = "https://app.postey.ai";
 const DEFAULT_PAGE_SIZE = 50;
 
-type UserPostStatus = "DRAFT" | "SCHEDULED" | "PUBLISHING" | "PUBLISHED";
+type UserPostStatus = "DRAFT" | "SCHEDULED" | "PUBLISHING" | "PUBLISHED" | "ERROR";
 
 type UserPostResponse = {
   title?: string | null;
@@ -151,9 +151,10 @@ export async function listDrafts(
   });
 
   const results: DraftListItem[] = response.data.map((post) => {
-    const privateUrl = post.share_id
-      ? `${APP_BASE}/s/${encodeURIComponent(post.share_id)}`
-      : `${APP_BASE}?d=${post.post_id * 256}`;
+    // private_url is always the owner's direct link to the draft.
+    // share_url is only populated when a share_id exists (public/shared view).
+    const ownerUrl = `${APP_BASE}?d=${post.post_id}`;
+    const shareUrl = post.share_id ? `${APP_BASE}/s/${encodeURIComponent(post.share_id)}` : null;
 
     return {
       id: post.post_id,
@@ -162,8 +163,8 @@ export async function listDrafts(
       draft_title: post.title ?? null,
       preview: post.title ?? null,
       socials: post.socials ?? [],
-      private_url: privateUrl,
-      share_url: post.share_id ? privateUrl : null,
+      private_url: ownerUrl,
+      share_url: shareUrl,
       tags: extractPostTags(post.tags),
       created_at: post.created_at,
       updated_at: post.updated_at,
@@ -221,6 +222,8 @@ function mapUserPostStatus(status: UserPostStatus): DraftListItem["status"] {
       return "published";
     case "PUBLISHING":
       return "publishing";
+    case "ERROR":
+      return "error";
     default:
       return "draft";
   }
@@ -254,40 +257,20 @@ function normalizeParsedContent(
   return { text, media };
 }
 
-export async function createDraft(payload: CreateRawDraftRequest): Promise<CreateRawDraftResult[]> {
-  const response = await requestJson<unknown>("/v1/posts/raw", {
+// POST /v1/posts/raw returns a single DraftDetailResponse per the OpenAPI spec.
+export async function createDraft(payload: CreateRawDraftRequest): Promise<DraftDetail> {
+  return requestJson<DraftDetail>("/v1/posts/raw", {
     method: "POST",
     body: payload,
   });
-
-  if (Array.isArray(response)) {
-    return response as CreateRawDraftResult[];
-  }
-
-  if (response && typeof response === "object") {
-    const record = response as Record<string, unknown>;
-    if (Array.isArray(record.results)) {
-      return record.results as CreateRawDraftResult[];
-    }
-    if (Array.isArray(record.data)) {
-      return record.data as CreateRawDraftResult[];
-    }
-    if (
-      record.data &&
-      typeof record.data === "object" &&
-      typeof (record.data as { post_id?: unknown }).post_id === "number"
-    ) {
-      return [record.data as CreateRawDraftResult];
-    }
-    if (typeof record.post_id === "number") {
-      return [record as CreateRawDraftResult];
-    }
-  }
-
-  return [];
 }
 
+// NOTE: The OpenAPI spec only documents GET for /v1/posts/{draft_id}; the PATCH
+// method is absent from the spec paths. However, the DraftUpdateRequest schema
+// (which includes publish_at) is defined in the spec, indicating the endpoint
+// exists but has not yet been added to the path documentation.
 export async function scheduleDraft(draftId: number, socialSetId: number, publishAt: string) {
+  const body: Pick<DraftUpdateRequest, "publish_at"> = { publish_at: publishAt };
   return requestJson<{
     id?: number;
     social_set_id?: number;
@@ -296,9 +279,7 @@ export async function scheduleDraft(draftId: number, socialSetId: number, publis
     private_url?: string | null;
   }>(`/v1/posts/${draftId}?account=${socialSetId}`, {
     method: "PATCH",
-    body: {
-      publish_at: publishAt,
-    },
+    body,
   });
 }
 

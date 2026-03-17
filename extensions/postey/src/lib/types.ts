@@ -100,15 +100,6 @@ export type CreateRawDraftRequest = {
   tags?: number[];
 };
 
-export type CreateRawDraftResult = {
-  platform: string;
-  post_id: number;
-  thread_content?: string;
-  published_now?: boolean;
-  scheduled?: boolean;
-  scheduled_at?: string;
-};
-
 export type DraftUpdateRequest = {
   platforms?: DraftCreatePlatforms;
   draft_title?: string | null;
